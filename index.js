@@ -1,28 +1,37 @@
 const express = require('express');
 const { GPTx } = require('@ruingl/gptx');
+const axios = require('axios');
 
 const app = express();
-app.use(express.json()); // Middleware to parse JSON request bodies
-
-// Initialize GPTx
 const gptx = new GPTx({ provider: 'Nextway', model: 'gemini-pro' });
 
-// Define a route to handle API requests
-app.post('/api/chat', async (req, res) => {
-  const { messages } = req.body;
+// Middleware to parse JSON requests
+app.use(express.json());
 
+// Define the /chat endpoint
+app.post('/chat', async (req, res) => {
+  const { message } = req.body;
+
+  if (!message) {
+    return res.status(400).json({ error: 'Message is required' });
+  }
+
+  const messages = [{ role: 'user', content: message }];
+  
   try {
-    // Use the GPTx instance to generate a response
     const response = await gptx.ChatCompletion(messages);
-    res.json(response);  // Send the GPTx response as JSON
+    console.log(`Received GPTx Response: ${JSON.stringify(response)}`);
+    
+    // Send back the response
+    res.json({ reply: response });
   } catch (error) {
-    console.error('Error with GPTx:', error);
-    res.status(500).json({ error: 'Failed to process request' });
+    console.error('Error with GPTx ChatCompletion:', error);
+    res.status(500).json({ error: 'Error with GPTx ChatCompletion' });
   }
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
