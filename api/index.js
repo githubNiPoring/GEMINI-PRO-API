@@ -1,6 +1,5 @@
 const express = require('express');
 const { GPTx } = require('@ruingl/gptx');
-const axios = require('axios');
 
 const app = express();
 const gptx = new GPTx({ provider: 'Voids', model: 'gemini-1.5-flash-exp-0827' });
