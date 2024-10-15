@@ -3,7 +3,7 @@ const { GPTx } = require('@ruingl/gptx');
 const axios = require('axios');
 
 const app = express();
-const gptx = new GPTx({ provider: 'Voids', model: 'gemini-1.5-flash-exp-0827' });
+const gptx = new GPTx({ provider: 'Nextway', model: 'gemini-pro' });
 
 // Middleware to parse JSON requests
 app.use(express.json());
@@ -30,8 +30,5 @@ app.post('/chat', async (req, res) => {
   }
 });
 
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// Export the app for Vercel
+module.exports = app;
