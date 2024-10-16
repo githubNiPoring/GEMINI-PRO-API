@@ -2,7 +2,7 @@ const express = require('express');
 const { GPTx } = require('@ruingl/gptx');
 
 const app = express();
-const gptx = new GPTx({ provider: 'Voids', model: 'gpt-4o-2024-08-06' });
+const gptx = new GPTx({ provider: 'Nextway', model: 'llama-3.1-405b-instruct-free' });
 
 // Middleware to parse JSON requests
 app.use(express.json());
